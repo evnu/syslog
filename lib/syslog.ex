@@ -65,7 +65,7 @@ defmodule Logger.Backends.Syslog do
 
     level    = Keyword.get(config, :level)
     metadata = Keyword.get(config, :metadata, []) |> configure_metadata()
-    host     = Keyword.get(config, :host, '127.0.0.1')
+    {:ok, host} = Keyword.get(config, :host, '127.0.0.1') |> :inet.parse_address()
     port     = Keyword.get(config, :port, 514)
     facility = Keyword.get(config, :facility, :local2) |> Logger.Syslog.Utils.facility
     appid    = Keyword.get(config, :appid, :elixir)
